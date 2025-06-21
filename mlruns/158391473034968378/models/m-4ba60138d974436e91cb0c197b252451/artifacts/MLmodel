@@ -1,0 +1,22 @@
+artifact_path: file:///c:/Users/Asus/Documents/Dicoding/membangun-sistem-ml/SMSML_Labiba-Adinda-Zahwana/Eksperimen_SML_Labiba-Adinda-Zahwana/mlruns/158391473034968378/models/m-4ba60138d974436e91cb0c197b252451/artifacts
+flavors:
+  python_function:
+    data: model.xgb
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.xgboost
+    python_version: 3.9.2
+  xgboost:
+    code: null
+    data: model.xgb
+    model_class: xgboost.sklearn.XGBClassifier
+    model_format: xgb
+    xgb_version: 2.1.4
+mlflow_version: 3.1.0
+model_id: m-4ba60138d974436e91cb0c197b252451
+model_size_bytes: 671907
+model_uuid: m-4ba60138d974436e91cb0c197b252451
+prompts: null
+run_id: 3c36eb8b6c504704afe33453ebc40905
+utc_time_created: '2025-06-21 05:21:19.341925'

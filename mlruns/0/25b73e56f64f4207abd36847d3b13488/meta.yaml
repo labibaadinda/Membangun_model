@@ -1,0 +1,14 @@
+artifact_uri: file:///c:/Users/Asus/Documents/Dicoding/membangun-sistem-ml/SMSML_Labiba-Adinda-Zahwana/Eksperimen_SML_Labiba-Adinda-Zahwana/mlruns/0/25b73e56f64f4207abd36847d3b13488/artifacts
+end_time: 1750483315084
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 25b73e56f64f4207abd36847d3b13488
+run_name: dashing-squirrel-229
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1750483300734
+status: 3
+tags: []
+user_id: Asus
