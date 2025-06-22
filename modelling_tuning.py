@@ -1,6 +1,7 @@
 import os
 import mlflow
 import mlflow.xgboost
+import dotenv
 import dagshub
 import pandas as pd
 import xgboost as xgb
@@ -11,11 +12,29 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 # -----------------------------
 # MLflow + DagsHub Integration
 # -----------------------------
-dagshub.init(repo_owner='labibaadinda',
-             repo_name='Membangun_model',
-             mlflow=True)
+from dotenv import load_dotenv
 
-mlflow.set_experiment("sleep_disorder_prediction_gridsearch")
+# Load token dan username dari .env
+load_dotenv()
+
+username = os.getenv("DAGSHUB_USERNAME")
+token = os.getenv("DAGSHUB_TOKEN")
+repo = "labibaadinda/Membangun_model"
+
+# Set tracking ke DagsHub
+mlflow.set_tracking_uri(f"https://dagshub.com/{repo}.mlflow")
+
+# Set environment variable untuk otentikasi
+os.environ["MLFLOW_TRACKING_USERNAME"] = username
+os.environ["MLFLOW_TRACKING_PASSWORD"] = token
+
+# Set experiment
+mlflow.set_experiment("experiments")
+
+print("MLflow tracking berhasil dikonfigurasi.")
+
+# Autolog semua parameter, metrics, dan model
+mlflow.xgboost.autolog(log_models=True)
 
 # -----------------------------
 # Load dataset
@@ -37,9 +56,9 @@ param_grid = {
     'learning_rate': [0.01, 0.1],
     'subsample': [0.8, 1.0],
     'colsample_bytree': [0.8, 1.0],
-    'lambda': [1],  # L2 regularization
-    'alpha': [1],   # L1 regularization
-    'gamma': [0.1]  # loss reduction
+    'lambda': [1],
+    'alpha': [1],
+    'gamma': [0.1]
 }
 
 xgb_model = xgb.XGBClassifier(use_label_encoder=False)
@@ -63,30 +82,24 @@ with mlflow.start_run():
     best_params = grid_search.best_params_
     best_score = grid_search.best_score_
 
-    # Log best hyperparameters
-    mlflow.log_params(best_params)
-    mlflow.log_metric("best_cv_accuracy", best_score)
+    # Autolog sudah mencatat best_params, best_model, dan lainnya.
+    # Tapi kita tetap bisa menambahkan metric tambahan dari test set:
 
-    # Save model locally
-    model_path = "xgboost_best_model.joblib"
-    joblib.dump(best_model, model_path)
-    mlflow.log_artifact(model_path)
-
-    # Log model to MLflow
-    mlflow.xgboost.log_model(best_model, "model")
-
-    # Evaluate on test set
     y_pred = best_model.predict(X_test)
     acc = accuracy_score(y_test, y_pred)
     prec = precision_score(y_test, y_pred, average='weighted')
     rec = recall_score(y_test, y_pred, average='weighted')
     f1 = f1_score(y_test, y_pred, average='weighted')
 
-    # Log manual metrics
     mlflow.log_metric("test_accuracy", acc)
     mlflow.log_metric("test_precision", prec)
     mlflow.log_metric("test_recall", rec)
     mlflow.log_metric("test_f1_score", f1)
+
+    # Simpan model secara lokal
+    model_path = "xgboost_best_model.joblib"
+    joblib.dump(best_model, model_path)
+    mlflow.log_artifact(model_path)
 
     print("\n--- Evaluation Results ---")
     print(f"Best CV Accuracy: {best_score:.4f}")
@@ -96,7 +109,7 @@ with mlflow.start_run():
     print(f"F1 Score        : {f1:.4f}")
 
     # -----------------------------
-    # DagsHub
+    # DagsHub Logging (Opsional)
     # -----------------------------
     dagshub.log("best_cv_accuracy", best_score)
     dagshub.log("test_accuracy", acc)
