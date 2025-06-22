@@ -29,7 +29,7 @@ os.environ["MLFLOW_TRACKING_USERNAME"] = username
 os.environ["MLFLOW_TRACKING_PASSWORD"] = token
 
 # Set experiment
-mlflow.set_experiment("experiments")
+mlflow.set_experiment("Sleep Disorder Prediction with XGBoost Modelling - Hyperparameter Tuning With GridSearch ")
 
 print("MLflow tracking berhasil dikonfigurasi.")
 
@@ -83,7 +83,7 @@ with mlflow.start_run():
     best_score = grid_search.best_score_
 
     # Autolog sudah mencatat best_params, best_model, dan lainnya.
-    # Tapi kita tetap bisa menambahkan metric tambahan dari test set:
+    # Tapi tetap bisa menambahkan metric tambahan dari test set:
 
     y_pred = best_model.predict(X_test)
     acc = accuracy_score(y_test, y_pred)
