@@ -1,0 +1,16 @@
+digest: f86a9b35
+name: dataset
+profile: '{"num_rows": 72, "num_elements": 936}'
+schema: '{"mlflow_colspec": [{"type": "long", "name": "Person ID", "required": true},
+  {"type": "long", "name": "Gender", "required": true}, {"type": "long", "name": "Age",
+  "required": true}, {"type": "long", "name": "Occupation", "required": true}, {"type":
+  "double", "name": "Sleep Duration", "required": true}, {"type": "long", "name":
+  "Quality of Sleep", "required": true}, {"type": "long", "name": "Physical Activity
+  Level", "required": true}, {"type": "long", "name": "Stress Level", "required":
+  true}, {"type": "long", "name": "BMI Category", "required": true}, {"type": "long",
+  "name": "Heart Rate", "required": true}, {"type": "long", "name": "Daily Steps",
+  "required": true}, {"type": "long", "name": "Systolic BP", "required": true}, {"type":
+  "long", "name": "Diastolic BP", "required": true}]}'
+source: '{"tags": {"mlflow.user": "Asus", "mlflow.source.name": "c:\\Users\\Asus\\Documents\\Dicoding\\membangun-sistem-ml\\SMSML_Labiba-Adinda-Zahwana\\membangun_model\\modelling_tuning.py",
+  "mlflow.source.type": "LOCAL", "mlflow.source.git.commit": "f1aa4a91cdf56f2909c04199d094175fbe099ec8"}}'
+source_type: code

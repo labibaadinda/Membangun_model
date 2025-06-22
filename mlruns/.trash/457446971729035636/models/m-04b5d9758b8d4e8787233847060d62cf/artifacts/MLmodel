@@ -1,0 +1,37 @@
+artifact_path: file:///c:/Users/Asus/Documents/Dicoding/membangun-sistem-ml/SMSML_Labiba-Adinda-Zahwana/membangun_model/mlruns/457446971729035636/models/m-04b5d9758b8d4e8787233847060d62cf/artifacts
+flavors:
+  python_function:
+    data: model.xgb
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.xgboost
+    python_version: 3.9.2
+  xgboost:
+    code: null
+    data: model.xgb
+    model_class: xgboost.sklearn.XGBClassifier
+    model_format: xgb
+    xgb_version: 2.1.4
+is_signature_from_type_hint: false
+mlflow_version: 3.1.0
+model_id: m-04b5d9758b8d4e8787233847060d62cf
+model_size_bytes: 150473
+model_uuid: m-04b5d9758b8d4e8787233847060d62cf
+prompts: null
+run_id: 7a56fa6a3d824dfb8154fa735720f8cb
+signature:
+  inputs: '[{"type": "long", "name": "Person ID", "required": true}, {"type": "long",
+    "name": "Gender", "required": true}, {"type": "long", "name": "Age", "required":
+    true}, {"type": "long", "name": "Occupation", "required": true}, {"type": "double",
+    "name": "Sleep Duration", "required": true}, {"type": "long", "name": "Quality
+    of Sleep", "required": true}, {"type": "long", "name": "Physical Activity Level",
+    "required": true}, {"type": "long", "name": "Stress Level", "required": true},
+    {"type": "long", "name": "BMI Category", "required": true}, {"type": "long", "name":
+    "Heart Rate", "required": true}, {"type": "long", "name": "Daily Steps", "required":
+    true}, {"type": "long", "name": "Systolic BP", "required": true}, {"type": "long",
+    "name": "Diastolic BP", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int32", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-06-22 09:28:32.715366'

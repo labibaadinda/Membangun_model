@@ -1,0 +1,8 @@
+artifact_location: file:///c:/Users/Asus/Documents/Dicoding/membangun-sistem-ml/SMSML_Labiba-Adinda-Zahwana/membangun_model/mlruns/457446971729035636
+creation_time: 1750584503768
+experiment_id: '457446971729035636'
+last_update_time: 1750588684849
+lifecycle_stage: deleted
+name: 'Sleep Disorder Prediction with XGBoost Modelling - Hyperparameter Tuning With
+  GridSearch '
+tags: {}

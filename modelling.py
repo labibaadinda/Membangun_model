@@ -52,7 +52,7 @@ with mlflow.start_run():
     mlflow.log_metric("recall", rec)
     mlflow.log_metric("f1_score", f1)
 
-    # ✅ Simpan ke Model Registry
+    # Simpan ke Model Registry
     mlflow.xgboost.log_model(
         model,
         artifact_path="model",
