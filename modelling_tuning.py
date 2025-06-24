@@ -1,44 +1,44 @@
 import os
 import mlflow
 import mlflow.xgboost
-import dotenv
-import dagshub
 import pandas as pd
 import xgboost as xgb
 import joblib
+
+from dotenv import load_dotenv
+from dagshub import dagshub_logger
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 # -----------------------------
 # MLflow + DagsHub Integration
 # -----------------------------
-from dotenv import load_dotenv
-
-# Load token dan username dari .env
 load_dotenv()
 
+# Ambil credentials dari .env
 username = os.getenv("DAGSHUB_USERNAME")
 token = os.getenv("DAGSHUB_TOKEN")
 repo = "labibaadinda/Membangun_model"
 
-# Set tracking ke DagsHub
-mlflow.set_tracking_uri(f"https://dagshub.com/{repo}.mlflow")
+# Validasi terlebih dahulu sebelum lanjut
+assert username is not None, "DAGSHUB_USERNAME tidak ditemukan di .env"
+assert token is not None, "DAGSHUB_TOKEN tidak ditemukan di .env"
 
-# Set environment variable untuk otentikasi
+# Set MLflow Tracking URI
+mlflow.set_tracking_uri(f"https://dagshub.com/{repo}.mlflow")
 os.environ["MLFLOW_TRACKING_USERNAME"] = username
 os.environ["MLFLOW_TRACKING_PASSWORD"] = token
 
-
 # Set experiment
-mlflow.set_experiment("Sleep Disorder Prediction with XGBoost Modelling - Hyperparameter Tuning With GridSearch ")
+mlflow.set_experiment("Sleep Disorder Prediction with XGBoost Modelling - GridSearchCV")
 
-print("MLflow tracking berhasil dikonfigurasi.")
+print("✅ MLflow tracking berhasil dikonfigurasi.")
 
-# Autolog semua parameter, metrics, dan model
+# Autolog
 mlflow.xgboost.autolog(log_models=True)
 
 # -----------------------------
-# Load dataset
+# Load Dataset
 # -----------------------------
 df = pd.read_csv("sleep-health_life-style_preprocessing.csv")
 X = df.drop(['Sleep Disorder'], axis=1)
@@ -46,7 +46,7 @@ y = df['Sleep Disorder']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # -----------------------------
-# GridSearchCV Hyperparameter Setting
+# GridSearchCV Parameters
 # -----------------------------
 param_grid = {
     'objective': ['multi:softmax'],
@@ -57,11 +57,12 @@ param_grid = {
     'learning_rate': [0.01, 0.1],
     'subsample': [0.8, 1.0],
     'colsample_bytree': [0.8, 1.0],
-    'lambda': [1],
-    'alpha': [1],
+    'reg_lambda': [1],  # formerly 'lambda'
+    'reg_alpha': [1],   # formerly 'alpha'
     'gamma': [0.1]
 }
 
+# Hati-hati: gunakan nama parameter sesuai dengan dokumentasi XGBoost sklearn API
 xgb_model = xgb.XGBClassifier(use_label_encoder=False)
 
 grid_search = GridSearchCV(
@@ -74,17 +75,14 @@ grid_search = GridSearchCV(
 )
 
 # -----------------------------
-# MLflow Tracking
+# Training & Logging
 # -----------------------------
-with mlflow.start_run():
+with mlflow.start_run() as run:
     grid_search.fit(X_train, y_train)
 
     best_model = grid_search.best_estimator_
     best_params = grid_search.best_params_
     best_score = grid_search.best_score_
-
-    # Autolog sudah mencatat best_params, best_model, dan lainnya.
-    # Tapi tetap bisa menambahkan metric tambahan dari test set:
 
     y_pred = best_model.predict(X_test)
     acc = accuracy_score(y_test, y_pred)
@@ -97,7 +95,7 @@ with mlflow.start_run():
     mlflow.log_metric("test_recall", rec)
     mlflow.log_metric("test_f1_score", f1)
 
-    # Simpan model secara lokal
+    # Simpan model
     model_path = "xgboost_best_model.joblib"
     joblib.dump(best_model, model_path)
     mlflow.log_artifact(model_path)
@@ -110,10 +108,13 @@ with mlflow.start_run():
     print(f"F1 Score        : {f1:.4f}")
 
     # -----------------------------
-    # DagsHub Logging (Opsional)
+    # Logging ke DagsHub (Opsional)
     # -----------------------------
-    dagshub.log("best_cv_accuracy", best_score)
-    dagshub.log("test_accuracy", acc)
-    dagshub.log("test_precision", prec)
-    dagshub.log("test_recall", rec)
-    dagshub.log("test_f1_score", f1)
+    with dagshub_logger() as d_logger:
+        d_logger.log_metrics({
+            "best_cv_accuracy": best_score,
+            "test_accuracy": acc,
+            "test_precision": prec,
+            "test_recall": rec,
+            "test_f1_score": f1
+        })

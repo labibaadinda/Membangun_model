@@ -1,0 +1,10 @@
+artifact_location: file:///c:/Users/Asus/Documents/Dicoding/membangun-sistem-ml/SMSML_Labiba-Adinda-Zahwana/Eksperimen_SML_Labiba-Adinda-Zahwana/mlruns/158391473034968378/models/m-74938e5c3bed430a966d4579451a5bbc/artifacts
+creation_timestamp: 1750640409976
+experiment_id: '158391473034968378'
+last_updated_timestamp: 1750640418092
+model_id: m-74938e5c3bed430a966d4579451a5bbc
+model_type: null
+name: model
+source_run_id: 3ee1c8af4f0841c4b51b8dcca86948f6
+status: 2
+status_message: null
