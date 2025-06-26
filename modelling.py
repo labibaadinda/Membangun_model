@@ -1,11 +1,11 @@
 import mlflow
-import mlflow.xgboost  # pastikan ini diimport juga
+import mlflow.xgboost  
 import xgboost as xgb
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-import joblib  # For saving the model manually if needed
+import joblib  
 
 # Load dataset
 file_path = 'sleep-health_life-style_preprocessing.csv'
@@ -21,7 +21,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # Set MLflow experiment
 mlflow.set_experiment("sleep_disorder_prediction")
 
-# ✅ ENABLE AUTOLOGGING
+# ENABLE AUTOLOGGING
 mlflow.xgboost.autolog()
 
 # Start MLflow run

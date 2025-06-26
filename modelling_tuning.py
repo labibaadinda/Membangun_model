@@ -32,7 +32,7 @@ os.environ["MLFLOW_TRACKING_PASSWORD"] = token
 # Set experiment
 mlflow.set_experiment("Sleep Disorder Prediction with XGBoost Modelling - GridSearchCV")
 
-print("✅ MLflow tracking berhasil dikonfigurasi.")
+print("MLflow tracking berhasil dikonfigurasi.")
 
 # Autolog
 mlflow.xgboost.autolog(log_models=True)
@@ -62,7 +62,7 @@ param_grid = {
     'gamma': [0.1]
 }
 
-# Hati-hati: gunakan nama parameter sesuai dengan dokumentasi XGBoost sklearn API
+
 xgb_model = xgb.XGBClassifier(use_label_encoder=False)
 
 grid_search = GridSearchCV(
@@ -108,7 +108,7 @@ with mlflow.start_run() as run:
     print(f"F1 Score        : {f1:.4f}")
 
     # -----------------------------
-    # Logging ke DagsHub (Opsional)
+    # Logging ke DagsHub 
     # -----------------------------
     with dagshub_logger() as d_logger:
         d_logger.log_metrics({
