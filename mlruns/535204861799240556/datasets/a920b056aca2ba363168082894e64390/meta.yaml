@@ -1,9 +1,0 @@
-digest: 318f8d03
-name: dataset
-profile: '{"features_shape": [287, 13], "features_size": 3731, "features_nbytes":
-  14924}'
-schema: '{"mlflow_tensorspec": {"features": "[{\"type\": \"tensor\", \"tensor-spec\":
-  {\"dtype\": \"float32\", \"shape\": [-1, 13]}}]", "targets": null}}'
-source: '{"tags": {"mlflow.user": "Asus", "mlflow.source.name": "c:\\Users\\Asus\\Documents\\Dicoding\\membangun-sistem-ml\\SMSML_Labiba-Adinda-Zahwana\\membangun_model\\modelling.py",
-  "mlflow.source.type": "LOCAL", "mlflow.source.git.commit": "aab0372a1d0aa14fb0011f8ff75b634feb3bf2f4"}}'
-source_type: code
